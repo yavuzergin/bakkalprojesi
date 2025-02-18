@@ -1,7 +1,7 @@
-/* package org.deneme.bakkal.model;
+ package org.deneme.bakkal.model;
 import jakarta.persistence.*;
 @Entity
-@Table(name = "maindb")
+@Table(name = "customerorders")
 public class CustomerOrders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -9,9 +9,55 @@ public class CustomerOrders {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    //dursun
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
+    @Column (name = "entity")
+    private int entity;
+
+    public CustomerOrders(){
+
+    }
+    public CustomerOrders(Customer customer, Product product, int entity) {
+        super();
+        this.customer = customer;
+        this.product = product;
+        this.entity = entity;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer(){
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getEntity() {
+        return entity;
+    }
+
+    public void setEntity(int entity) {
+        this.entity = entity;
+    }
 }
 
- */
