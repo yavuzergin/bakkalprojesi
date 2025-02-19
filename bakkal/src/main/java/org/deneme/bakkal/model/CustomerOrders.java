@@ -15,17 +15,17 @@ public class CustomerOrders {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column (name = "entity")
-    private int entity;
+    @Column (name = "quantity")
+    private int quantity;
 
     public CustomerOrders(){
 
     }
-    public CustomerOrders(Customer customer, Product product, int entity) {
+    public CustomerOrders(Customer customer, Product product, int quantity) {
         super();
         this.customer = customer;
         this.product = product;
-        this.entity = entity;
+        this.quantity = quantity;
     }
 
     public long getId() {
@@ -40,24 +40,24 @@ public class CustomerOrders {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Customer customer){
         this.customer = customer;
     }
 
-    public Product getProduct() {
+    public Product getProduct(){
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(Product product){
         this.product = product;
     }
 
-    public int getEntity() {
-        return entity;
+    public int getQuantity(){
+        return quantity;
     }
 
-    public void setEntity(int entity) {
-        this.entity = entity;
+    public void setQuantity(int entity){
+        this.quantity = quantity;
     }
 }
 
