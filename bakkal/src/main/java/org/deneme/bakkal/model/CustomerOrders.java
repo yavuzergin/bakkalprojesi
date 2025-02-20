@@ -26,18 +26,24 @@ public class CustomerOrders {
     @Column(name = "total_cost")
     private Double total_cost;
 
+    @Column(name = "total_debth")
+    private Double total_debth;
+
+
+
 
 
     public CustomerOrders() {
 
     }
 
-    public CustomerOrders(Customer customer, Product product, int quantity, Double total_cost) {
+    public CustomerOrders(Customer customer, Product product, int quantity, Double total_cost, Double total_debth) {
         super();
         this.customer = customer;
         this.product = product;
         this.quantity = quantity;
         this.total_cost = total_cost;
+        this.total_debth = total_debth;
     }
 
     public long getId() {
@@ -78,5 +84,13 @@ public class CustomerOrders {
 
     public void setTotal_cost(Double total_cost) {
         this.total_cost = total_cost;
+    }
+
+    public Double getTotal_debth() {
+        return total_debth;
+    }
+
+    public void setTotal_debth(Double total_debth) {
+        this.total_debth = total_debth;
     }
 }
