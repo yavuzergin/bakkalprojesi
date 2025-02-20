@@ -57,9 +57,7 @@ public class CustomerOrdersController {
 
     @GetMapping("/calculate-customer-debth/{id}")
     public Double customerDebth(@PathVariable Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + "numaralı kişi bulunamadı"));
         List <CustomerOrders> orders = customerOrdersRepository.findByCustomer_Id(id);
-
         double totalDebth = orders.stream().collect(Collectors.summingDouble(order -> order.getProduct().getProductPrice() * order.getQuantity()));
         return totalDebth;
     }
