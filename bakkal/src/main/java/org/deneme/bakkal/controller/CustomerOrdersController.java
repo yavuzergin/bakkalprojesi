@@ -43,8 +43,8 @@ public class CustomerOrdersController {
         customerOrder.setCustomer(customer);
         customerOrder.setProduct(product);
         customerOrder.setQuantity(input.getQuantity());
-        double totalDebth = input.getQuantity() * product.getProductPrice();
-        customerOrder.setTotal_debth(totalDebth);
+        double totalCost = input.getQuantity() * product.getProductPrice();
+        customerOrder.setTotal_cost(totalCost);
 
         return customerOrdersRepository.save(customerOrder);
     }

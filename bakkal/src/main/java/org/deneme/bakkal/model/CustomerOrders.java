@@ -23,8 +23,8 @@ public class CustomerOrders {
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "total_debth")
-    private Double total_debth;
+    @Column(name = "total_cost")
+    private Double total_cost;
 
 
 
@@ -32,12 +32,12 @@ public class CustomerOrders {
 
     }
 
-    public CustomerOrders(Customer customer, Product product, int quantity, Double total_debth) {
+    public CustomerOrders(Customer customer, Product product, int quantity, Double total_cost) {
         super();
         this.customer = customer;
         this.product = product;
         this.quantity = quantity;
-        this.total_debth = total_debth;
+        this.total_cost = total_cost;
     }
 
     public long getId() {
@@ -72,11 +72,11 @@ public class CustomerOrders {
         this.quantity = quantity;
     }
 
-    public Double getTotal_debth() {
-        return total_debth;
+    public Double getTotal_cost() {
+        return total_cost;
     }
 
-    public void setTotal_debth(Double total_debth) {
-        this.total_debth = total_debth;
+    public void setTotal_cost(Double total_cost) {
+        this.total_cost = total_cost;
     }
 }
