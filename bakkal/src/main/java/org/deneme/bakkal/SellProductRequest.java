@@ -31,7 +31,7 @@ public class SellProductRequest {
         return quantity;
     }
 
-    public void setQuantity(int count) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }

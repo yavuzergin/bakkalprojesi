@@ -1,5 +1,10 @@
- package org.deneme.bakkal.model;
+package org.deneme.bakkal.model;
+
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "customerorders")
 public class CustomerOrders {
@@ -11,21 +16,28 @@ public class CustomerOrders {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column (name = "quantity")
+    @Column(name = "quantity")
     private int quantity;
 
-    public CustomerOrders(){
+    @Column(name = "total_debth")
+    private Double total_debth;
+
+
+
+    public CustomerOrders() {
 
     }
-    public CustomerOrders(Customer customer, Product product, int quantity) {
+
+    public CustomerOrders(Customer customer, Product product, int quantity, Double total_debth) {
         super();
         this.customer = customer;
         this.product = product;
         this.quantity = quantity;
+        this.total_debth = total_debth;
     }
 
     public long getId() {
@@ -36,28 +48,35 @@ public class CustomerOrders {
         this.id = id;
     }
 
-    public Customer getCustomer(){
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer){
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public Product getProduct(){
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product){
+    public void setProduct(Product product) {
         this.product = product;
     }
 
-    public int getQuantity(){
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int entity){
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-}
 
+    public Double getTotal_debth() {
+        return total_debth;
+    }
+
+    public void setTotal_debth(Double total_debth) {
+        this.total_debth = total_debth;
+    }
+}
