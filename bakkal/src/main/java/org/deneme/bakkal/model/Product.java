@@ -11,12 +11,12 @@ public class Product {
     private String productName;
 
     @Column(name = "product_price")
-    private float productPrice;
+    private double productPrice;
 
     public Product() {
 
     }
-    public Product (String productName, Float productPrice) {
+    public Product (String productName, double productPrice) {
         super();
         this.productName = productName;
         this.productPrice = productPrice;
@@ -38,11 +38,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public float getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(float productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 }

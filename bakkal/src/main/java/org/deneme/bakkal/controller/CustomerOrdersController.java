@@ -1,5 +1,6 @@
 package org.deneme.bakkal.controller;
 
+import io.micrometer.common.KeyValues;
 import org.deneme.bakkal.CalculateCustomerDebthRequest;
 import org.deneme.bakkal.SellProductRequest;
 import org.deneme.bakkal.model.Customer;
@@ -16,6 +17,8 @@ import org.deneme.bakkal.repository.CustomerOrdersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -42,9 +45,24 @@ public class CustomerOrdersController {
         return customerOrdersRepository.save(customerOrder);
     }
     @GetMapping("/calculate-customer-debth")
-    public List<CustomerOrders> getAllCustomerOrders() {
-        return customerOrdersRepository.findAll();
-        
-        //bir müşteriye ait olan orderidleri al ve o orderidlere ait totalcostları toplayıp totaldebthe ata.
+    public Map<String, Double> getAllCustomerOrders() {
+        List<CustomerOrders> orders = customerOrdersRepository.findAll();
+        Map<String, Double> orderSummary = orders.stream()
+                .collect(Collectors.groupingBy(
+                        order -> order.getCustomer().getFirstName(),
+                        Collectors.summingDouble(order -> order.getProduct().getProductPrice() * order.getQuantity())
+                ));
+        return orderSummary;
     }
+
+    @GetMapping("/calculate-customer-debth/{id}")
+    public Double customerDebth(@PathVariable Long id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + "numaralı kişi bulunamadı"));
+        List <CustomerOrders> orders = customerOrdersRepository.findByCustomer_Id(id);
+
+        double totalDebth = orders.stream().collect(Collectors.summingDouble(order -> order.getProduct().getProductPrice() * order.getQuantity()));
+        return totalDebth;
+    }
+
+
 }
