@@ -26,8 +26,7 @@ public class CustomerOrdersController {
 
     @PostMapping("/sell-product2")
     public CustomerOrders customerOrders(@RequestBody SellProductRequest input) {
-        CustomerOrders customerOrders = customerOrdersService.sellProduct(input);
-        return customerOrders;
+        return customerOrdersService.sellProduct(input);
     }
 
     @GetMapping("/calculate-customer-debth")
