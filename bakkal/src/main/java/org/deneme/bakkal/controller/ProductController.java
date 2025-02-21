@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.deneme.bakkal.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,38 +27,33 @@ import org.deneme.bakkal.repository.ProductRepository;
 public class ProductController {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/list-product")
     public List<Product> getAllProducts(){
-        return productRepository.findAll();
+        return productService.getAllProducts();
     }
 
     @GetMapping("/get-product/{id}")
     public ResponseEntity<Product> getProductByID(@PathVariable Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + " numaralı ürün mevcut değildir."));
+        Product product = productService.getProductById(id);
         return ResponseEntity.ok(product);
     }
     @PostMapping("/add-product")
     public Product createProduct(@RequestBody Product product) {
-        return productRepository.save(product);
+       return productService.create(product);
     }
 
     @PutMapping("/update-product/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + " numaralı ürün mevcut değildir."));
-        product.setProductName(productDetails.getProductName());
-        product.setProductPrice(productDetails.getProductPrice());
-
-       Product updatedProduct = productRepository.save(product);
+        Product updatedProduct = productService.update(id, productDetails);
         return ResponseEntity.ok(updatedProduct);
     }
 
     @DeleteMapping("/remove-product/{id}")
     public ResponseEntity<Map<String,Boolean>> deleteProduct(@PathVariable Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + " numaralı ürün mevcut değildir."));
-        productRepository.delete(product);
-        Map<String, Boolean> response = new Hashtable<>();
-        response.put("deleted", Boolean.TRUE);
+        Map<String, Boolean> response = productService.deleteProduct(id);
         return ResponseEntity.ok(response);
     }
 }

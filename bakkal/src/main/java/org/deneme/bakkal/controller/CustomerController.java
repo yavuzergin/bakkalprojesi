@@ -1,9 +1,12 @@
 package org.deneme.bakkal.controller;
+
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import org.deneme.bakkal.model.Product;
+import org.deneme.bakkal.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,41 +29,34 @@ import org.deneme.bakkal.repository.CustomerRepository;
 public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
 
     @GetMapping("/list-customer")
-    public List<Customer> getAllCustomers(){
-        return customerRepository.findAll();
+    public List<Customer> getAllCustomers() {
+        return customerService.getAllCustomers();
     }
 
     @GetMapping("/get-customer/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + " numaralı kişi mevcut değildir."));
+        Customer customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
     }
+
     @PostMapping("/add-customer")
     public Customer createCustomer(@RequestBody Customer customer) {
-        return customerRepository.save(customer);
+        return customerService.createCustomer(customer);
     }
 
     @PutMapping("/update-customer/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customerDetails) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + " numaralı kişi mevcut değildir."));
-        customer.setFirstName(customerDetails.getFirstName());
-        customer.setLastName(customerDetails.getLastName());
-        customer.setEmailId(customerDetails.getEmailId());
-        customer.setPhoneNumber(customerDetails.getPhoneNumber());
-        customer.setCustomerAddress(customerDetails.getCustomerAddress());
-
-        Customer updatedCustomer = customerRepository.save(customer);
+        Customer updatedCustomer = customerService.update(id, customerDetails);
         return ResponseEntity.ok(updatedCustomer);
     }
 
     @DeleteMapping("/remove-customer/{id}")
-    public ResponseEntity<Map<String,Boolean>> deleteCustomer(@PathVariable Long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + " numaralı kişi mevcut değildir."));
-        customerRepository.delete(customer);
-        Map<String, Boolean> response = new Hashtable<>();
-        response.put("deleted", Boolean.TRUE);
+    public ResponseEntity<Map<String, Boolean>> deleteCustomer(@PathVariable Long id) {
+        Map<String, Boolean> response = customerService.deleteCustomer(id);
         return ResponseEntity.ok(response);
     }
 }
